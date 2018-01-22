@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cors = require('cors')
-const { users } = require('./routes')
+const { users, sessions } = require('./routes')
 
 const port = process.env.PORT || 3030
 
@@ -17,6 +17,7 @@ app
 
   // Our routes
   .use(users)
+  .use(sessions)
 
   // catch 404 and forward to error handler
   .use((req, res, next) => {
