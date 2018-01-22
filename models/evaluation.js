@@ -8,7 +8,6 @@ const evaluationSchema = new Schema({
   code: {type: String, required: true},
   remark: {type: String},
   studentId: {type: Schema.Types.ObjectId, ref:'students', required: true},
-  batchId: {type: Schema.Types.ObjectId, ref: 'batches', required: true},
   userId: {type: Schema.Types.ObjectId, ref: 'users', required: true},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
