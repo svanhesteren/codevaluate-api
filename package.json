@@ -1,0 +1,17 @@
+{
+  "name": "codevaluate-api",
+  "version": "0.0.1",
+  "description": "Backend for advanced bootcamp assignment",
+  "main": "index.js",
+  "repository": "git@github.com:svanhesteren/codevaluate-api.git",
+  "author": "Sebastian van Hesteren",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.1"
+  }
+}
