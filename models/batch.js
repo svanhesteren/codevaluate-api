@@ -5,8 +5,8 @@ const { Schema } = mongoose
 
 const batchSchema = new Schema({
   name: {type:Number, required: true},
-  start_date: {type: Date, default: Date.now, required: true},
-  end_date: {type: Date, default: Date.now+10, required: true},
+  start_date: {type: Date, default: Date.now},
+  end_date: {type: Date, default: Date.now},
   studentId: {type: [Schema.Types.ObjectId], ref: 'students', default: []}
 })
 
