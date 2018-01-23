@@ -28,11 +28,11 @@ router
       return next(error)
     }
     const newBatch = {
-      userId: req.account._id,
       name: req.body.name,
-      // start_date: req.body.start_date,
-      // end_date: req.body.end_date
+      userId: req.account._id
+
     }
+
     Batch.create(newBatch)
       .then((batch) => {
         res.status(201)

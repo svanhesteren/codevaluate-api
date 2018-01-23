@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cors = require('cors')
-const { users, sessions } = require('./routes')
+const { users, sessions, batches } = require('./routes')
 
 const port = process.env.PORT || 3030
 
@@ -18,10 +18,11 @@ app
   // Our routes
   .use(users)
   .use(sessions)
+  .use(batches)
 
   // catch 404 and forward to error handler
   .use((req, res, next) => {
-    const err = new Error('Not Found')
+    const err = new Error('Route not Found')
     err.status = 404
     next(err)
   })
