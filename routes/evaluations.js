@@ -44,7 +44,7 @@ router
       return next(error)
     }
     if(!req.student) {return next()}
-    console.log(req.student)
+    // console.log(req.student)
 
     const newEvaluation = {
       // date: Date.now,
@@ -62,6 +62,33 @@ router
     .catch((error) => next(error))
   })
 
+  .patch('/evaluations/:evalId', authenticate, (req, res, next) => {
+    if(!req.account) {return next()}
+    const evalId = req.params.evalId
+    const patchForEval = req.body
+
+    Evaluation.findById(evalId)
+      .then((evaluation) => {
+        if(!evaluation) {return next()}
+        console.log(req.account._id)
+        console.log(evaluation.userId)
+
+        if(req.account._id.toString() !== evaluation.userId.toString()) {
+          const error = new Error("You can only edit your own evaluations")
+          error.status = 403
+          return next(error)
+          }
+
+        const updatedEvaluation = {...evaluation, ...patchForEval}
+
+        Evaluation.findByIdAndUpdate(evalId, {$set: updatedEvaluation }, {new: true})
+          .then((evaluation) => {
+            if (!evaluation) { return next() }
+            res.json(evaluation)
+          })
+      })
+      .catch((error) => next(error))
+  })
 
 
 
