@@ -30,7 +30,6 @@ router
     const newBatch = {
       name: req.body.name,
       userId: req.account._id
-
     }
 
     Batch.create(newBatch)
