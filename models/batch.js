@@ -7,7 +7,7 @@ const batchSchema = new Schema({
   name: { type: String,unique: true, required: true  },
   start_date: { type: Date, default: Date.now},
   end_date: { type: Date, default: Date.now},
-  studentId: { type: [Schema.Types.ObjectId], ref: 'students', default: []},
+  // studentId: { type: [Schema.Types.ObjectId], ref: 'students', default: []},
   userId: { type: Schema.Types.ObjectId, ref: 'users'}
 })
 

@@ -60,8 +60,19 @@ const createUser = (user) => {
       })
 }
 
-const createStudent = (token, student) => {
-
+const createStudent = (token, batch, student) => {
+  return request
+    .post(createUrl('/batches/`${batch.id}`/students'))
+    .set('Authorization', `Bearer ${token}`)
+    .send(batch)
+    .then((res) => {
+      console.log('Batch seeded...', res.body)
+      return res.body
+    })
+    .catch((err) => {
+      console.log(batch)
+      console.error('Error seeding batch!', err.message)
+    })
 }
 
 
@@ -116,11 +127,11 @@ Promise.all(users.map((user) => {return createUser(user)}))
 
   .then(token => {
     Promise.all(batches.map(batch => {
-      return createBatch(token, batch)
+      return createBatch(token, batch), token
     }))
   })
   // .then()
-  .then(batches => {
+  .then(token => {
     console.log(batches)
     db.connection.close()
   })

@@ -5,8 +5,8 @@ const { Schema } = mongoose
 const studentSchema = new Schema({
   name: {type:String, required: true},
   picture: {type: String},
-  batch: {type: Schema.Types.ObjectId, ref: 'batches', required: true},
-  evaluation: {type: [Schema.Types.ObjectId], ref: 'evaluations', default: []}
+  batchId: {type: Schema.Types.ObjectId, ref: 'batches', required: true},
+  // evaluationId: {type: [Schema.Types.ObjectId], ref: 'evaluations', default: []}
 })
 
 
