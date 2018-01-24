@@ -17,6 +17,17 @@ const loadStudent = (req, res, next) => {
     .catch((error) => next(error))
   }
 
+  const findEvaluations = (req, res, next) => {
+
+    const id = req.params.studentId
+
+    Evaluation.find().where('studentId').equals(id)
+      .then((evaluations) => {
+        req.student.evaluations = evaluations
+        next()
+      })
+      .catch((error) => next(error))
+  }
 
 router
 
@@ -36,6 +47,11 @@ router
     .catch((error) => next(error))
   })
 
+  .get('/students/:studentId/evaluations', loadStudent, findEvaluations, (req, res, next) => {
+    if (!req.student) { return next() }
+    const evaluations = req.student.evaluations
+    res.json(evaluations)
+  })
 
   .post('/students/:studentId/evaluations', authenticate, loadStudent, (req, res, next) => {
     if(!req.account) {
