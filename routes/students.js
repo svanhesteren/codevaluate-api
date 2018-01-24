@@ -86,7 +86,33 @@ const findStudents = (req, res, next) => {
     })
     // const newStudentList = [...req.batch.students, createStudent._id ]
 
+    .patch('/students/:studentId', authenticate, (req, res, next) => {
+      if(!req.account) {return next()}
+      const studentId = req.params.studentId
+      const patchForStudent = req.body
 
+      Student.findById(studentId)
+        .then((student) => {
+          if(!student) {return next()}
+          console.log(req.account._id)
+          // console.log(student.userId)
+
+          // if(req.account._id.toString() !== evaluation.userId.toString()) {
+          //   const error = new Error("You can only edit your own evaluations")
+          //   error.status = 403
+          //   return next(error)
+          //   }
+
+          const updatedStudent = {...student, ...patchForStudent}
+
+          Student.findByIdAndUpdate(studentId, {$set: updatedStudent }, {new: true})
+            .then((student) => {
+              if (!student) { return next() }
+              res.json(student)
+            })
+        })
+        .catch((error) => next(error))
+    })
 
 
 

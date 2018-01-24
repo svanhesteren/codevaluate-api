@@ -2,7 +2,7 @@ const request = require('superagent')
 const users = require('./fixtures/users.json')
 const batches = require('./fixtures/batches.json')
 const db = require('../config/database')
-
+const faker = require('faker')
 const User = require("../models/user")
 const Batch = require("../models/batch")
 
@@ -131,7 +131,7 @@ Promise.all(users.map((user) => {return createUser(user)}))
     }))
   })
   // .then()
-  .then(token => {
+  .then((token, batches) => {
     console.log(batches)
     db.connection.close()
   })
