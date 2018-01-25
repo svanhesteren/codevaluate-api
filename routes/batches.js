@@ -27,10 +27,7 @@ router
       error.status = 401
       return next(error)
     }
-    const newBatch = {
-      name: req.body.name,
-      userId: req.account._id
-    }
+    const newBatch = {...req.body, userId: req.account._id}
 
     Batch.create(newBatch)
       .then((batch) => {

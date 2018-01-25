@@ -19,12 +19,14 @@ router.post('/users', (req, res, next) => {
 router.get('/users/me', passport.authorize('jwt', { session: false }), (req, res, next) => {
   // Once authorized, the user data should be in `req.account`!
   if (!req.account) {
-    const error = new Error('Unauthorized')
+    const error = new Error('Unauthorized user')
     error.status = 401
     next(error)
   }
 
   res.json(req.account)
 })
+
+
 
 module.exports = router
