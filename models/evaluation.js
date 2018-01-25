@@ -9,6 +9,7 @@ const evaluationSchema = new Schema({
   remark: {type: String},
   studentId: {type: Schema.Types.ObjectId, ref:'students', required: true},
   userId: {type: Schema.Types.ObjectId, ref: 'users', required: true},
+  userName: {type: String},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })

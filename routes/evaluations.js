@@ -65,6 +65,7 @@ router
     const newEvaluation = {
       // date: Date.now,
       userId: req.account._id,
+      userName: req.account.name,
       studentId: req.student._id,
       code: req.body.code,
       remark: req.body.remark
