@@ -4,7 +4,7 @@ const faker = require('faker')
 
 const studentSchema = new Schema({
   name: {type:String, required: true},
-  picture: {type: String, required: true, default: 'http://via.placeholder.com/300x300?text=No%20Image'},
+  picture: {type: String, default: 'http://via.placeholder.com/300x300'},
   batchId: {type: Schema.Types.ObjectId, ref: 'batches', required: true},
 })
 

@@ -9,8 +9,6 @@ const loadStudent = (req, res, next) => {
   const studentId = req.params.studentId
   Student.findById(studentId)
     .then((student) => {
-      // if(!student) {return next()}
-      // res.json(student)
       req.student = student
       next()
     })
@@ -60,15 +58,11 @@ router
       return next(error)
     }
     if(!req.student) {return next()}
-    // console.log(req.student)
 
-    const newEvaluation = {
-      // date: Date.now,
+    const newEvaluation = {...req.body,
       userId: req.account._id,
       userName: req.account.name,
       studentId: req.student._id,
-      code: req.body.code,
-      remark: req.body.remark
     }
 
     Evaluation.create(newEvaluation)
@@ -87,8 +81,6 @@ router
     Evaluation.findById(evalId)
       .then((evaluation) => {
         if(!evaluation) {return next()}
-        console.log(req.account._id)
-        console.log(evaluation.userId)
 
         if(req.account._id.toString() !== evaluation.userId.toString()) {
           const error = new Error("You can only edit your own evaluations")

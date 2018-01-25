@@ -6,7 +6,6 @@ const authenticate = passport.authorize('jwt', { session: false })
 
 
 const loadBatch = (req, res, next) => {
-  // console.log(req.params)
   const id = req.params.batchId
 
   Batch.findById(id)
@@ -20,7 +19,6 @@ const loadBatch = (req, res, next) => {
 const findStudents = (req, res, next) => {
 
   const id = req.params.batchId
-  // console.log(id)
 
   Student.find().where('batchId').equals(id)
     .then((students) => {
@@ -34,7 +32,6 @@ const findStudents = (req, res, next) => {
 
   router
     .get('/students/:studentId', (req, res, next) => {
-      // if(!req.batch) {return next()}
       const studentId = req.params.studentId
       Student.findById(studentId)
         .then((student) => {
@@ -49,13 +46,9 @@ const findStudents = (req, res, next) => {
         .then((students) => res.json(students))
         .catch((error) => next(error))
     })
-    //   const batchId = req.match.id
-    // })
 
-    // .get('/batches/:batchId/students/:studentid')
 
     .get('/batches/:batchId/students', loadBatch, findStudents, (req, res, next) => {
-      // console.log(req.params)
       if (!req.batch) { return next() }
       const students = req.batch.students
       res.json(students)
@@ -70,12 +63,8 @@ const findStudents = (req, res, next) => {
       }
 
       if(!req.batch) {return next()}
-      // const userId = req.account._id
 
-      const newStudent = {
-        name: req.body.name,
-        batchId: req.batch._id
-      }
+      const newStudent = {...req.body, batchId: req.batch._id}
 
       Student.create(newStudent)
         .then((student) => {
@@ -84,7 +73,6 @@ const findStudents = (req, res, next) => {
         })
         .catch((error) => next(error))
     })
-    // const newStudentList = [...req.batch.students, createStudent._id ]
 
     .patch('/students/:studentId', authenticate, (req, res, next) => {
       if(!req.account) {return next()}
@@ -95,7 +83,6 @@ const findStudents = (req, res, next) => {
         .then((student) => {
           if(!student) {return next()}
           console.log(req.account._id)
-          // console.log(student.userId)
 
           // if(req.account._id.toString() !== evaluation.userId.toString()) {
           //   const error = new Error("You can only edit your own evaluations")
