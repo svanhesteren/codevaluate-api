@@ -19,7 +19,7 @@ const loadStudent = (req, res, next) => {
 
     const id = req.params.studentId
 
-    Evaluation.find().where('studentId').equals(id)
+    Evaluation.find().where('studentId').equals(id).sort({'date':-1})
       .then((evaluations) => {
         req.student.evaluations = evaluations
         next()
