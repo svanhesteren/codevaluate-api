@@ -6,7 +6,7 @@ const authenticate = passport.authorize('jwt', { session: false })
 
 router
   .get('/batches', (req, res, next) => {
-    Batch.find()
+    Batch.find().sort({'start_date': -1})
       .then((batches) => res.json(batches))
       .catch((error) => next(error))
   })
