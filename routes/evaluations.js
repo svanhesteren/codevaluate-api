@@ -83,6 +83,7 @@ router
       userId: req.account._id,
       userName: req.account.name,
       studentId: req.student._id,
+      studentName: req.student.name
     }
 
     Evaluation.create(newEvaluation)
@@ -90,7 +91,6 @@ router
       res.status(201)
       res.json(evaluation)
 
-      // const last = Evaluation.find().where('studentId').equals(id).sort({'date':-1})[0]
 
     })
 

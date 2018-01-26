@@ -74,7 +74,7 @@ const findEval = (studentId) => {
       })
 
       Promise.all(vals).then(evals => {
-        console.log(evals)
+        // console.log(evals)
         res.json(evals)
       })
 
