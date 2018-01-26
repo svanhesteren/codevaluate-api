@@ -1,6 +1,6 @@
 // routes/users.js
 const router = require('express').Router()
-const { Student, Batch } = require('../models')
+const { Student, Batch, Evaluation } = require('../models')
 const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false })
 
@@ -29,6 +29,14 @@ const findStudents = (req, res, next) => {
 }
 
 
+const findEval = (studentId) => {
+
+    return Evaluation.findOne().where('studentId').equals(studentId).sort({'date':-1}).exec()
+
+}
+
+
+
 
   router
     .get('/students/:studentId', (req, res, next) => {
@@ -53,6 +61,27 @@ const findStudents = (req, res, next) => {
       const students = req.batch.students
       res.json(students)
     })
+
+    .get('/batches/:batchId/latestevals', loadBatch, findStudents, (req, res, next) => {
+      if (!req.batch) { return next() }
+      const students = req.batch.students
+
+      var latestEvals = []
+
+      var vals = req.batch.students.map(student => {
+
+        return findEval(student._id)
+      })
+
+      Promise.all(vals).then(evals => {
+        console.log(evals)
+        res.json(evals)
+      })
+
+
+      })
+
+
 
 
     .post('/batches/:batchId/students', authenticate, loadBatch, (req, res, next) => {
@@ -84,11 +113,7 @@ const findStudents = (req, res, next) => {
           if(!student) {return next()}
           console.log(req.account._id)
 
-          // if(req.account._id.toString() !== evaluation.userId.toString()) {
-          //   const error = new Error("You can only edit your own evaluations")
-          //   error.status = 403
-          //   return next(error)
-          //   }
+
 
           const updatedStudent = {...student, ...patchForStudent}
 

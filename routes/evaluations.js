@@ -15,6 +15,18 @@ const loadStudent = (req, res, next) => {
     .catch((error) => next(error))
   }
 
+  const findLatestEvaluation = (req, res, next) => {
+
+    const id = req.params.studentId
+
+    Evaluation.findOne().where('studentId').equals(id).sort({'date':-1})
+      .then((evaluations) => {
+        req.student.evaluations = evaluations
+        next()
+      })
+      .catch((error) => next(error))
+  }
+
   const findEvaluations = (req, res, next) => {
 
     const id = req.params.studentId
@@ -51,6 +63,12 @@ router
     res.json(evaluations)
   })
 
+  .get('/students/:studentId/evaluation', loadStudent, findLatestEvaluation, (req, res, next) => {
+    if (!req.student) { return next() }
+    const evaluations = req.student.evaluations
+    res.json(evaluations)
+  })
+
   .post('/students/:studentId/evaluations', authenticate, loadStudent, (req, res, next) => {
     if(!req.account) {
       const error = new Error('Unauthorized user')
@@ -58,6 +76,8 @@ router
       return next(error)
     }
     if(!req.student) {return next()}
+
+
 
     const newEvaluation = {...req.body,
       userId: req.account._id,
@@ -69,7 +89,11 @@ router
     .then((evaluation) => {
       res.status(201)
       res.json(evaluation)
+
+      // const last = Evaluation.find().where('studentId').equals(id).sort({'date':-1})[0]
+
     })
+
     .catch((error) => next(error))
   })
 

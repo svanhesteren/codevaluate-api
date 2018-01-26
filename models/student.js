@@ -6,6 +6,8 @@ const studentSchema = new Schema({
   name: {type:String, required: true},
   picture: {type: String, default: 'http://via.placeholder.com/300x300'},
   batchId: {type: Schema.Types.ObjectId, ref: 'batches', required: true},
+  latestEvalCode: {type: String},
+  latestEvalDate: {type: Date}
 })
 
 
